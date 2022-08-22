@@ -38,7 +38,7 @@ class dataSaver(object):
         
         return result, issueItem
 
-    def _commentOnIssueItem(self, issueItem):
+    def _commentOnIssueItem(self, issueItem, comment):
         commentObject = { 'follows' : 35643}
         _commentString = json.dumps(commentObject) # "test %s" % datetime.datetime.now()
         res = issueItem.create_comment(_commentString)
@@ -63,7 +63,7 @@ if __name__ == "__main__":
 
     res, issueItem = saver._getIssueItemByDate(123)
     if res:
-        saver._commentOnIssueItem(issueItem, _comments)
+        saver._commentOnIssueItem(issueItem, "12345")
 
 
 
