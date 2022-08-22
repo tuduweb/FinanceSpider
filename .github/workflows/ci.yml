@@ -23,4 +23,4 @@ jobs:
     - name: Cat File
       run: result=$(cat res_result.out)
     - name: Run DataSaver
-      run: python ./CI/github/dataSaver.py ${{ secrets.BOT_TOKENS }} result
+      run: python ./CI/github/dataSaver.py ${{ secrets.BOT_TOKENS }} $result
