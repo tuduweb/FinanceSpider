@@ -19,4 +19,4 @@ jobs:
         pip install -r ./requirements.txt
     - name: Run my script
       run: |
-        python ./xueqiu/spider.py
+        python ./xueqiu/spider.py SZ002585
