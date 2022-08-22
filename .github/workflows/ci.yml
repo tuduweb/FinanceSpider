@@ -21,6 +21,8 @@ jobs:
       run: |
         python ./xueqiu/spider.py SZ002585 output.out
     - name: Cat File
-      run: result=$(cat res_result.out)
+      run: |
+        result=$(cat res_result.out)
+        echo $result
     - name: Run DataSaver
-      run: python ./CI/github/dataSaver.py ${{ secrets.BOT_TOKENS }} $result
+      run: python ./CI/github/dataSaver.py ${{ secrets.BOT_TOKENS }} res_result.out

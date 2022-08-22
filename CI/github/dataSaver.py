@@ -2,6 +2,7 @@
 #Coding="utf-8"
 
 import sys
+import os
 import datetime
 import json
 import github
@@ -65,12 +66,28 @@ class dataSaver(object):
 if __name__ == "__main__":
 
     GITHUB_API_KEY = sys.argv[1]
-    commentString = sys.argv[2]
-    date = "2022-10-11"
-    saver = dataSaver(GITHUB_API_KEY, date)
+    argv2 = sys.argv[2]
 
+    path = ""
+    commentString = ""
+
+    if argv2:
+        if os.path.exists(argv2):
+            path = argv2
+        else:
+            commentString = argv2
+    
+    date = "2022-10-11"
+    print("comments", commentString)
+
+    saver = dataSaver(GITHUB_API_KEY, date)
+    
     res, issueItem = saver._getIssueItemByDate(123)
     if res:
+        if len(path):
+            with open(path, "r") as commentFile:
+                commentString = json.load(commentFile)
+    
         saver._commentOnIssueItem(issueItem, commentString)
 
 
