@@ -39,8 +39,15 @@ class dataSaver(object):
         return result, issueItem
 
     def _commentOnIssueItem(self, issueItem, comment):
-        commentObject = { 'follows' : 35643}
-        _commentString = json.dumps(commentObject) # "test %s" % datetime.datetime.now()
+        _commentString = ""
+        if instanceof(comment, str):
+            _commentString = comment
+        elif instanceof(comment, object):
+            _commentString = json.dumps(comment) # "test %s" % datetime.datetime.now()
+        
+        if len(_commentString) is False:
+            return
+
         res = issueItem.create_comment(_commentString)
         print(res)
         pass
@@ -58,12 +65,13 @@ class dataSaver(object):
 if __name__ == "__main__":
 
     GITHUB_API_KEY = sys.argv[1]
+    commentString = sys.argv[2]
     date = "2022-10-11"
     saver = dataSaver(GITHUB_API_KEY, date)
 
     res, issueItem = saver._getIssueItemByDate(123)
     if res:
-        saver._commentOnIssueItem(issueItem, "12345")
+        saver._commentOnIssueItem(issueItem, commentString)
 
 
 

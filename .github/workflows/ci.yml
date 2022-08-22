@@ -20,7 +20,7 @@ jobs:
     - name: Run my script
       run: |
         python ./xueqiu/spider.py SZ002585 output.out
-    - name: Run DataSaver
-      run: python ./CI/github/dataSaver.py ${{ secrets.BOT_TOKENS }}
     - name: Cat File
-      run: cat res_result.out
+      run: result=$(cat res_result.out)
+    - name: Run DataSaver
+      run: python ./CI/github/dataSaver.py ${{ secrets.BOT_TOKENS }} result
