@@ -40,9 +40,9 @@ class dataSaver(object):
 
     def _commentOnIssueItem(self, issueItem, comment):
         _commentString = ""
-        if instanceof(comment, str):
+        if isinstance(comment, str):
             _commentString = comment
-        elif instanceof(comment, object):
+        elif isinstance(comment, object):
             _commentString = json.dumps(comment) # "test %s" % datetime.datetime.now()
         
         if len(_commentString) is False:
