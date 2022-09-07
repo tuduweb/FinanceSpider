@@ -36,7 +36,7 @@ def getResult(XUEQIU_STOCK_ID):
 
         # # 发起请求之前，我们可以打印一下session上下文请求对象里面的cookies
         # cookies_dict = requests.utils.dict_from_cookiejar(session.cookies)
-    
+
         # print(cookies_dict)
 
         # # 给 requests.session() 对象设置cookie信息
@@ -55,9 +55,24 @@ def getResult(XUEQIU_STOCK_ID):
         url2 = "https://stock.xueqiu.com/v5/stock/portfolio/stock/follower_list.json?symbol=" + XUEQIU_STOCK_ID + "&page=1&size=20&anonymous_filter=true"
         response2 = requests.get(url2, headers=headers, cookies=response.cookies)
 
-        print(response2.text)
         with open("response2.out", 'w', encoding="utf-8") as resText:
             resText.writelines(response2.text)
+
+        print(response2.text)
+
+        json_dict = json.loads(response2.text)
+
+        print(json_dict)
+        print(json_dict['data']['count'])
+
+        res_result = {
+            'follows': json_dict['data']['count']
+        }
+
+        res_result_str = json.dumps(res_result)
+
+        with open("res_result.out", 'w', encoding="utf-8") as resResult:
+            resResult.writelines(res_result_str)
 
         ### 把需要的信息整合成json格式.. 方便以no-sql形式保存
 
@@ -92,26 +107,26 @@ def getResult(XUEQIU_STOCK_ID):
         return result
 
 
-# 生成信息
-def formatMessage(result):
-    return False
-    message = ""
-    call = "亲爱的 " + result["nick_name"] + "，您的 CSDN profile 到啦\n\n"
-    profile = result["profile"]
-    original = "原创文章数目： " + profile["original"] + "\n"
-    fans = "粉丝： " + profile["fans"] + "\n"
-    like = "获赞： " + profile["like"] + "\n"
-    comment = "评论： " + profile["comment"] + "\n"
-    read = "访问量： " + profile["read"] + "\n"
-    point = "积分： " + profile["point"] + "\n"
-    week_rank = "周排名： " + profile["week_rank"] + "\n"
-    total_rank = "总排名： " + profile["total_rank"]
+# # 生成信息
+# def formatMessage(result):
+#     return False
+#     message = ""
+#     call = "亲爱的 " + result["nick_name"] + "，您的 CSDN profile 到啦\n\n"
+#     profile = result["profile"]
+#     original = "原创文章数目： " + profile["original"] + "\n"
+#     fans = "粉丝： " + profile["fans"] + "\n"
+#     like = "获赞： " + profile["like"] + "\n"
+#     comment = "评论： " + profile["comment"] + "\n"
+#     read = "访问量： " + profile["read"] + "\n"
+#     point = "积分： " + profile["point"] + "\n"
+#     week_rank = "周排名： " + profile["week_rank"] + "\n"
+#     total_rank = "总排名： " + profile["total_rank"]
 
-    message += call + original + fans + like + comment + read + point + week_rank + total_rank
-    return message
+#     message += call + original + fans + like + comment + read + point + week_rank + total_rank
+#     return message
 
 def getFollow(XUEQIU_STOCK_ID):
-    
+
     url = "https://stock.xueqiu.com/v5/stock/portfolio/stock/follower_list.json?symbol=" + XUEQIU_STOCK_ID + "&page=1&size=20&anonymous_filter=true"
     print(url)
     headers = {
@@ -125,24 +140,24 @@ def getFollow(XUEQIU_STOCK_ID):
 
     if response.status_code == 200:
         print(response.text)
-    
-# 发送邮件
-def sendEmail(content):
-    message = MIMEText(content, 'plain', 'utf-8')
-    message['From'] = "GitHub Actions<" + sender + ">"
-    message['To'] = "<" + receiver + ">"
 
-    subject = "CSDN Report"
-    message['Subject'] = Header(subject, 'utf-8')
+# # 发送邮件
+# def sendEmail(content):
+#     message = MIMEText(content, 'plain', 'utf-8')
+#     message['From'] = "GitHub Actions<" + sender + ">"
+#     message['To'] = "<" + receiver + ">"
 
-    try:
-        smtpObj = smtplib.SMTP_SSL(mail_host, mail_port)
-        smtpObj.login(mail_user, mail_password)
-        smtpObj.sendmail(sender, receiver, message.as_string())
-        print("邮件发送成功")
+#     subject = "CSDN Report"
+#     message['Subject'] = Header(subject, 'utf-8')
 
-    except smtplib.SMTPException:
-        print("Error: 无法发送邮件")
+#     try:
+#         smtpObj = smtplib.SMTP_SSL(mail_host, mail_port)
+#         smtpObj.login(mail_user, mail_password)
+#         smtpObj.sendmail(sender, receiver, message.as_string())
+#         print("邮件发送成功")
+
+#     except smtplib.SMTPException:
+#         print("Error: 无法发送邮件")
 
 
 # 保存email内容
