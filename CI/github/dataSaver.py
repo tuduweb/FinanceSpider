@@ -15,7 +15,6 @@ class GitIssueProxy(object):
 
 class dataSaver(object):
     def __init__(self, GitApi, date):
-        print(GitApi)
         self.DebugMode = False
         self.__gitApi = GitApi
         self.g = Github(GitApi)
