@@ -6,3 +6,7 @@ Learn to make a spider with Github Action
 
 1. Python
 2. Github Action
+
+### TODO
+
+ - data visualization
